@@ -8,46 +8,27 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.example.sololearntesttask.MainFragment">
+        android:name="com.example.sololearntesttask.main.MainFragment">
         <action
             android:id="@+id/action_to_reposDetailsFragment"
-            app:destination="@id/reposDetailsFragment">
-
-            <argument
-                android:name="login"
-                app:argType="string"
-                app:nullable="true" />
-
-            <argument
-                android:name="name"
-                app:argType="string"
-                app:nullable="true" />
-
-            <argument
-                android:name="position"
-                app:argType="Int"
-                app:nullable="true" />
+            app:destination="@id/reposDetailsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            >
 
         </action>
     </fragment>
 
     <fragment
         android:id="@+id/reposDetailsFragment"
-        android:name="com.example.sololearntesttask.ReposDetailsFragment">
+        android:name="com.example.sololearntesttask.details.ReposDetailsFragment">
+
 
         <argument
-            android:name="login"
-            app:argType="string"
-            app:nullable="true" />
-
-        <argument
-            android:name="name"
-            app:argType="string"
-            app:nullable="true" />
-
-        <argument
-            android:name="position"
-            app:argType="Int"
+            android:name="details"
+            app:argType="com.example.sololearntesttask.models.RepositoryDetailsDTO"
             app:nullable="true" />
     </fragment>
 

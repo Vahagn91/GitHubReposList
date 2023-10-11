@@ -7,7 +7,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:layout_margin="16dp">
 
     <ImageView
         android:id="@+id/avatarImageView"
@@ -26,7 +26,7 @@
         app:layout_constraintStart_toEndOf="@+id/avatarImageView"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="10dp"
-        tools:text="Financhakjhxkjhe" />
+        tools:text="name" />
 
     <TextView
         android:id="@+id/textDescription"
@@ -37,18 +37,56 @@
         app:layout_constraintTop_toBottomOf="@+id/textName"
         android:layout_marginTop="4dp"
         android:layout_marginStart="10dp"
-        tools:text="Financhakjhxkjhe" />
+        tools:text="description" />
 
     <TextView
         android:id="@+id/starCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:drawablePadding="8dp"
         android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/avatarImageView"
         app:layout_constraintTop_toBottomOf="@+id/textDescription"
         android:layout_marginTop="4dp"
         android:layout_marginStart="10dp"
-        tools:text="Financhakjhxkjhe" />
+        tools:text="1000"
+        app:drawableStartCompat="@drawable/ic_star" />
+
+    <TextView
+        android:id="@+id/forksCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:drawableStartCompat="@drawable/ic_split"
+        android:drawablePadding="8dp"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/avatarImageView"
+        app:layout_constraintTop_toBottomOf="@+id/starCount"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="10dp"
+        tools:text="546" />
+
+    <TextView
+        android:id="@+id/language"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/avatarImageView"
+        app:layout_constraintTop_toBottomOf="@+id/forksCount"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="10dp"
+        tools:text="C++" />
+
+    <TextView
+        android:id="@+id/url"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/avatarImageView"
+        app:layout_constraintTop_toBottomOf="@+id/language"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="10dp"
+        android:autoLink="web">
+    </TextView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

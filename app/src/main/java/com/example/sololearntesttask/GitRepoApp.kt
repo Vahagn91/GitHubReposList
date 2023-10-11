@@ -1,7 +1,7 @@
 package com.example.sololearntesttask
 
 import android.app.Application
-import androidx.fragment.app.Fragment
+import com.example.sololearntesttask.di.appModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.GlobalContext.startKoin
@@ -9,19 +9,22 @@ import org.koin.core.logger.Level
 
 class GitRepoApp : Application() {
 
-        override fun onCreate() {
-            super.onCreate()
+    override fun onCreate() {
+        super.onCreate()
 
-            startKoin{
-                androidLogger(Level.ERROR)
-                androidContext(this@GitRepoApp)
-                modules(appModule)
-            }
+        startKoin {
+            androidLogger(Level.ERROR)
+            androidContext(this@GitRepoApp)
+            modules(appModule)
         }
 
-
-    companion object {
-        var mCurrentFragment: Fragment? = null
+        instance = this
 
     }
+
+    companion object {
+        lateinit var instance: GitRepoApp
+
+    }
+
 }

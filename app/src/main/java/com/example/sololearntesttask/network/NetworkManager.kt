@@ -1,27 +1,25 @@
-package com.example.sololearntesttask
+package com.example.sololearntesttask.network
 
 import androidx.annotation.Keep
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
+import com.example.sololearntesttask.BuildConfig
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 
 @Keep
-interface ApiResultCallback<T> {
-    fun onSuccess(response: T?)
+sealed class ApiResult<out T>(
+    val data: T? = null,
+    val error: String? = null,
+)
 
-    fun onError(errorString: String?) {
-    }
+class Success<T>(data: T? = null) : ApiResult<T>(data = data)
 
-}
+class Failure(error: String?) : ApiResult<Nothing>(error = error)
 
 
 inline fun <reified T> createWebService(baseUrl: String): T {
@@ -49,36 +47,27 @@ inline fun <reified T> createWebService(baseUrl: String): T {
 }
 
 suspend fun <T> coroutineResponseWithContext(
-    resultCallBack: ApiResultCallback<T>? = null,
     apiFunction: suspend () -> Response<T>,
-) {
+): ApiResult<T> {
 
-    withContext(
+    return withContext(
         Dispatchers.IO + BaseCoroutineExceptionHandler(
-            CoroutineExceptionHandler,
-            resultCallBack
+            CoroutineExceptionHandler
         )
+
     ) {
         val response = apiFunction()
         val responseBody = response.body()
 
-        GitRepoApp.mCurrentFragment?.lifecycleScope?.launch(
-            Dispatchers.Main + BaseCoroutineExceptionHandler(
-                CoroutineExceptionHandler, resultCallBack
-            )
-        ) {
-            if (response.isSuccessful) {
-                resultCallBack?.onSuccess(responseBody)
-            } else {
 
-                val errorString = response.errorBody()?.string()
-
-                resultCallBack?.onError(errorString)
-
-
-            }
+        if (response.isSuccessful) {
+            return@withContext Success(responseBody)
+        } else {
+            val errorString = response.errorBody()?.string()
+            return@withContext Failure(errorString)
         }
     }
+
 }
 
 

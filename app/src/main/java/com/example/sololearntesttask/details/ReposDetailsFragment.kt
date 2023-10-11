@@ -1,4 +1,4 @@
-package com.example.sololearntesttask
+package com.example.sololearntesttask.details
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,7 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
+import com.example.sololearntesttask.R
 import com.example.sololearntesttask.databinding.FragmentReposDetailsBinding
+import com.example.sololearntesttask.main.GitHubRepositoryViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -19,7 +22,6 @@ class ReposDetailsFragment : Fragment() {
     private var _binding: FragmentReposDetailsBinding? = null
 
     private val binding get() = _binding
-
 
 
     override fun onCreateView(
@@ -35,27 +37,20 @@ class ReposDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        gitRepoViewModel.getRepositoriesByName(
-            owner = args.login.toString(),
-            proj = args.name.toString(),
-            position = args.position
-            )
-
-        observeLiveData()
+        val avatarUrl = args.details?.owner?.avatarUrl
 
 
-    }
+        Glide.with(binding?.root?.context!!)
+            .load(avatarUrl)
+            .placeholder(R.drawable.ic_person)
+            .into(binding!!.avatarImageView)
 
-
-    fun observeLiveData() {
-
-
-
-        gitRepoViewModel.reposDetails.observe(viewLifecycleOwner) {
-
-                binding?.textName?.text = it?.name
-            binding?.textDescription?.text = it?.description
-        }
+        binding?.textName?.text = args.details?.name
+        binding?.textDescription?.text = args.details?.description
+        binding?.starCount?.text = args.details?.stargazersCount.toString()
+        binding?.forksCount?.text = args.details?.forks.toString()
+        binding?.language?.text = args.details?.language
+        binding?.url?.text = args.details?.url
 
     }
 
